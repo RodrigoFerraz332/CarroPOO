@@ -10,6 +10,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Carro;
 import model.Pessoa;
+import servicos.PessoaServicos;
+import servicos.ServicosFactory;
+import static servicos.ServicosFactory.pessoaS;
 import util.Validadores;
 
 /**
@@ -133,6 +136,7 @@ public class Inf3n212Carro {
 
     private static void cadastrarPessoa() {
         System.out.println("--Cadastro de Pessoa--");
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
         int idPessoa;
         String nome;
         String cpf;
@@ -144,7 +148,7 @@ public class Inf3n212Carro {
             cpf = leia.nextLine();
             tcpf = Validadores.isCPF(cpf);
             if (tcpf) {
-                if (cadPessoa.GetPessoaCPF(cpf) != null) {
+                if (pessoaS.getPessoaByDoc(cpf).getCpf() != null) {
                     System.out.println("--CPF já cadastrado!--");
                     System.out.println("1- Tentar novamente");
                     System.out.println("2- Cancelar cadastro");
@@ -179,7 +183,7 @@ public class Inf3n212Carro {
         telefone = leia.nextLine();
         idPessoa = cadPessoa.geraID();
         Pessoa p = new Pessoa(idPessoa, nome, cpf, endereco, telefone);
-        cadPessoa.addPessoa(p);
+        pessoaS.cadastroPessoa(p);
         System.out.println(p.getNome() + "cadastrado com sucesso!");
 
     }//fim do cadPessoa
@@ -259,6 +263,7 @@ public class Inf3n212Carro {
     }//fim do cadastrar carro
 
     private static void editarPessoa() {
+        PessoaServicos pessoaS=ServicosFactory.getPessoaServicos();
         System.out.println("--Editar Pessoa--");
         boolean isCPF;
         do {//faça
@@ -266,8 +271,8 @@ public class Inf3n212Carro {
             String cpf = leia.nextLine();
             isCPF = Validadores.isCPF(cpf);
             if (isCPF) {
-                Pessoa p = cadPessoa.GetPessoaCPF(cpf);
-                if (p != null) {
+                Pessoa p = pessoaS.getPessoaByDoc(cpf);
+                if (p.getCpf()!= null) {
                     do {
                         System.out.println("Quais dados de " + p.getNome() + "deseja alterar?");
                         System.out.println("1-Nome");
@@ -282,12 +287,12 @@ public class Inf3n212Carro {
                             p.setNome(leia.nextLine());
 
                         }
-                        if (op == 1 || op == 4) {
+                        if (op == 2 || op == 4) {
                             System.out.println("Informe o novo Endereço:");
                             p.setEndereco(leia.nextLine());
 
                         }
-                        if (op == 1 || op == 4) {
+                        if (op == 3 || op == 4) {
                             System.out.println("Informe o novo Telefone:");
                             p.setTelefone(leia.nextLine());
 
@@ -297,6 +302,10 @@ public class Inf3n212Carro {
                             isCPF = false;
                             if (op < 0 || op > 4) {
                                 System.out.println("Opção invalida,tente novamente!");
+
+                            }
+                             if (op > 0 && op < 4) {
+                                pessoaS.atualizarPessoa(p);
 
                             }
                         }
@@ -420,8 +429,13 @@ public class Inf3n212Carro {
 
     private static void listarPessoa() {
         System.out.println("--Lista de Pessoas--");
-        for (Pessoa pessoa : cadPessoa.getPessoas()) {
-            System.out.println(pessoa.toString());
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
+        if (pessoaS.getPessoas().isEmpty()) {
+            System.out.println("Não tem pessoa cadastrada no sistema");
+        } else {
+            for (Pessoa pessoa : pessoaS.getPessoas()) {
+                System.out.println(pessoa.toString());
+            }
         }
     }//fim do lista Pessoa
 
@@ -433,6 +447,7 @@ public class Inf3n212Carro {
     }//fim do listar carro
 
     private static void deletarPessoa() {
+        PessoaServicos pessoaS=ServicosFactory.getPessoaServicos();
         System.out.println("--Deletar Pessoa--");
         boolean delCPF;
         do {
@@ -440,13 +455,13 @@ public class Inf3n212Carro {
             String cpf = leia.nextLine();
             delCPF = Validadores.isCPF(cpf);
             if (delCPF) {
-                Pessoa p = cadPessoa.GetPessoaCPF(cpf);
-                if (p != null) {
+                Pessoa p = pessoaS.getPessoaByDoc(cpf);
+                if(p.getCpf()!=null) {
                     System.out.println("Deseja realmente deletar" + p.getNome() + "?");
                     System.out.println("1 - Sim | 2 - Não");
                     int op = leiaNumint();
                     if (op == 1) {
-                        cadPessoa.removePessoa(p);
+                        pessoaS.deletarPessoa(cpf);
                         System.out.println("Pessoa deletada com sucesso!");
                         delCPF = false;
 

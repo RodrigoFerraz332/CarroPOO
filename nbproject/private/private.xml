@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/inf3n212-Carro/src/util/Validadores.java</file>
-            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/inf3n212-Carro/src/model/Carro.java</file>
-            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/inf3n212-Carro/src/inf3n212/carro/Inf3n212Carro.java</file>
-            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/inf3n212-Carro/src/controller/CPessoa.java</file>
-            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/inf3n212-Carro/src/model/Pessoa.java</file>
-            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/inf3n212-Carro/src/controller/CCarro.java</file>
+            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/STech-inf3n212-Carro-main/src/inf3n212/carro/Inf3n212Carro.java</file>
+            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/STech-inf3n212-Carro-main/src/dao/DAOFactory.java</file>
+            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/STech-inf3n212-Carro-main/src/servicos/PessoaServicos.java</file>
+            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/STech-inf3n212-Carro-main/src/servicos/ServicosFactory.java</file>
+            <file>file:/C:/Users/182120050/Documents/NetBeansProjects/STech-inf3n212-Carro-main/src/dao/PessoaDAO.java</file>
         </group>
     </open-files>
 </project-private>
