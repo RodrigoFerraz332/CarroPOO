@@ -12,9 +12,13 @@ package servicos;
  */
 public class ServicosFactory {
     public static  PessoaServicos pessoaS= new PessoaServicos();
+    public static  CarroServicos carroS= new CarroServicos();
     
     public static PessoaServicos getPessoaServicos(){
     return pessoaS;
         
+    }
+    public static CarroServicos getCarrosServicos(){
+       return carroS;
     }
 }

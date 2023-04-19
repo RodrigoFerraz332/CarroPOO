@@ -10,6 +10,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Carro;
 import model.Pessoa;
+import servicos.CarroServicos;
 import servicos.PessoaServicos;
 import servicos.ServicosFactory;
 import static servicos.ServicosFactory.pessoaS;
@@ -190,6 +191,8 @@ public class Inf3n212Carro {
 
     private static void cadastrarCarro() {
         System.out.println("--Cadastro Carro--");
+        CarroServicos carroS = ServicosFactory.getCarrosServicos();
+        PessoaServicos pessoaS=ServicosFactory.getPessoaServicos();
         String placa;
         String marca;
         String modelo;
@@ -206,8 +209,8 @@ public class Inf3n212Carro {
             placa = placa.toUpperCase();
             pCarro = Validadores.verificaPlacaMercosul(placa);
             if (pCarro) {
-                Carro carro = cadCarro.GetCarroplaca(placa);
-                if (carro == null) {
+                Carro carro = carroS.getCarroByDoc(placa);
+                if (carro.getPlaca() == null) {
                     System.out.println("Informe a marca:");
                     marca = leia.nextLine();
                     System.out.println("Informe o modelo");
@@ -230,8 +233,9 @@ public class Inf3n212Carro {
                     do {
                         System.out.println("informe o CPF do proprietário:");
                         String cpf = leia.nextLine();
-                        proprietario = cadPessoa.GetPessoaCPF(cpf);
-                        if (proprietario == null) {
+                        //proprietario = cadPessoa.GetPessoaCPF(cpf);
+                        proprietario = pessoaS.getPessoaByDoc(cpf);
+                        if (proprietario.getCpf() == null) {
                             System.out.println("CPF não cadastrado," + "tente novamente!");
                         } else {
                             System.out.println("Pessoa selecionada:" + proprietario.getNome());
@@ -248,7 +252,8 @@ public class Inf3n212Carro {
                     } while (proprietario == null);
                     pCarro = false;
                     Carro c = new Carro(placa, marca, modelo, anoFab, anoMod, cor, tpCambio, combustivel, proprietario);
-                    cadCarro.addCarro(c);
+                    //cadCarro.addCarro(c);
+                    carroS.cadastroCarro(c);
                     System.out.println("Carro cadastrado com sucesso!");
                 } else {
                     System.out.println("Placa ja cadastrada.");
@@ -263,7 +268,7 @@ public class Inf3n212Carro {
     }//fim do cadastrar carro
 
     private static void editarPessoa() {
-        PessoaServicos pessoaS=ServicosFactory.getPessoaServicos();
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
         System.out.println("--Editar Pessoa--");
         boolean isCPF;
         do {//faça
@@ -272,7 +277,7 @@ public class Inf3n212Carro {
             isCPF = Validadores.isCPF(cpf);
             if (isCPF) {
                 Pessoa p = pessoaS.getPessoaByDoc(cpf);
-                if (p.getCpf()!= null) {
+                if (p.getCpf() != null) {
                     do {
                         System.out.println("Quais dados de " + p.getNome() + "deseja alterar?");
                         System.out.println("1-Nome");
@@ -304,7 +309,7 @@ public class Inf3n212Carro {
                                 System.out.println("Opção invalida,tente novamente!");
 
                             }
-                             if (op > 0 && op < 4) {
+                            if (op > 0 && op < 4) {
                                 pessoaS.atualizarPessoa(p);
 
                             }
@@ -330,6 +335,7 @@ public class Inf3n212Carro {
     }//Fim do Editar
 
     private static void editarCarro() {
+        CarroServicos carroS = ServicosFactory.getCarrosServicos();
         System.out.println("--Editar Carro--");
         boolean isPlaca;
         do {
@@ -339,7 +345,7 @@ public class Inf3n212Carro {
             isPlaca = Validadores.verificaPlacaMercosul(placa);
             if (isPlaca) {
                 Carro c;
-                c = cadCarro.GetCarroplaca(placa);
+                c = carroS.getCarroByDoc(placa);
                 if (c != null) {
                     System.out.println(c.toString());
                     System.out.println("O que deseja alterar?");
@@ -440,6 +446,7 @@ public class Inf3n212Carro {
     }//fim do lista Pessoa
 
     private static void listarCarro() {
+        CarroServicos carroC = ServicosFactory.getCarrosServicos();
         System.out.println("--Lista de Carros--");
         for (Carro carro : cadCarro.getCarros()) {
             System.out.println(carro.toString());
@@ -447,7 +454,7 @@ public class Inf3n212Carro {
     }//fim do listar carro
 
     private static void deletarPessoa() {
-        PessoaServicos pessoaS=ServicosFactory.getPessoaServicos();
+        PessoaServicos pessoaS = ServicosFactory.getPessoaServicos();
         System.out.println("--Deletar Pessoa--");
         boolean delCPF;
         do {
@@ -456,7 +463,7 @@ public class Inf3n212Carro {
             delCPF = Validadores.isCPF(cpf);
             if (delCPF) {
                 Pessoa p = pessoaS.getPessoaByDoc(cpf);
-                if(p.getCpf()!=null) {
+                if (p.getCpf() != null) {
                     System.out.println("Deseja realmente deletar" + p.getNome() + "?");
                     System.out.println("1 - Sim | 2 - Não");
                     int op = leiaNumint();
@@ -491,6 +498,7 @@ public class Inf3n212Carro {
     }//fim do deletar pessoa
 
     private static void deletarCarro() {
+        CarroServicos carroS = ServicosFactory.getCarrosServicos();
         System.out.println("--Deletar Carro--");
         boolean delCarro;
         do {
@@ -499,7 +507,7 @@ public class Inf3n212Carro {
             placa = placa.toUpperCase();
             delCarro = Validadores.verificaPlacaMercosul(placa);
             if (delCarro) {
-                Carro c = cadCarro.GetCarroplaca(placa);
+                Carro c = carroS.getCarroByDoc(placa);
                 if (c != null) {
                     System.out.println("Deseja realmente deletar esse carro " + c.getPlaca() + "?");
                     System.out.println("1 - Sim | 2 - Não");
