@@ -75,7 +75,7 @@ public class CarroDAO {
         Carro c = new Carro();
         try {
             Connection con = Conexao.getConexao();
-            String sql = "select c.*,p.cpf as cpf from carros c join pessoas p on c.proprietario = p.idPessoa"
+            String sql = "select c.*,p.cpf as cpf from carros c join pessoas p on c.proprietario = p.idPessoa "
                     + "where placa = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, placa);

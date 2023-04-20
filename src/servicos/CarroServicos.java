@@ -29,7 +29,7 @@ public class CarroServicos {
         return cDAO.getCarroByDoc(placa);
     }
 
-    public void atualizarPessoa(Carro cVO) {
+    public void atualizarCarro(Carro cVO) {
         CarroDAO cDAO = DAOFactory.getCarroDAO();
         cDAO.atualizarCarro(cVO);
     }
